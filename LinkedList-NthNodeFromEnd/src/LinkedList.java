@@ -1,4 +1,5 @@
 //https://www.geeksforgeeks.org/nth-node-from-the-end-of-a-linked-list/
+//Author : Sahil Diwan
 public class LinkedList {
 
 	Node head;
