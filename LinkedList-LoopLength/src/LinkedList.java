@@ -1,12 +1,11 @@
-import java.util.HashSet;
 
 public class LinkedList {
-
 	Node head;
 	
 	static class Node{
 		int data;
 		Node next;
+		
 		Node(int data){
 			this.data=data;
 			this.next=null;
@@ -19,27 +18,31 @@ public class LinkedList {
 		head = new_node;
 	}
 	
-	void printList(){
-		Node n = head;
-		while(n!=null){
-			System.out.print(n.data+" ");
-			n.next = null;
+	static int countNodes(Node n){
+		int count = 1;
+		Node temp = n;
+		while(temp.next!=n){
+			count++;
+			temp = temp.next;
 		}
+		return count;
 	}
 	
-	public boolean detectLoop(Node n){
-		HashSet<Node> s = new HashSet<>();
-		while(n!=null){
+	int detectLoop(Node n){
+		Node slow_ptr = n;
+		Node fast_ptr = n;
+		
+		while(slow_ptr!=null && fast_ptr!=null && fast_ptr.next!=null){
+			slow_ptr = slow_ptr.next;
+			fast_ptr = fast_ptr.next;
 			
-			if(s.contains(n)){
-				return true;
+			if(slow_ptr==fast_ptr){
+				return countNodes(slow_ptr);
 			}
-			
-			s.add(n);
-			n=n.next;
 		}
-		return false;
+		return 0;
 	}
+	
 	
 	public static void main(String[] args) {
 		LinkedList llist = new LinkedList();
@@ -51,12 +54,6 @@ public class LinkedList {
         /*Create loop for testing */
         llist.head.next.next.next.next = llist.head;
         
-        if(llist.detectLoop(llist.head)){
-        	System.out.println("Loop detected");
-        }
-        else{
-        	System.out.println("No Loop detected");
-        }
-        
+        System.out.println("Length of loop is "+llist.detectLoop(llist.head));
 	}
 }
